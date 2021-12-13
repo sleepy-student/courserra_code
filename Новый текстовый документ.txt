@@ -3,7 +3,20 @@ import json
 import os
 import tempfile
 
+import functools
+import json
 
+
+def to_json(func):
+
+    @functools.wraps(func)
+    def wrapped(*args, **kwargs):
+        result = func(*args, **kwargs)
+        return json.dumps(result)
+
+    return wrapped
+    
+    
 def read_data(storage_path):
     if not os.path.exists(storage_path):
         return {}
